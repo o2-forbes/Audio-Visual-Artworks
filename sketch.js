@@ -12,7 +12,7 @@ let fft;
 }
 
 function draw() {
-  background(0);
+  background(0,150);
   fill(255);
   noStroke(); // so that the text below doesn't have a large stroke value
   text('tap to start', width/2, 20);
@@ -38,6 +38,8 @@ function draw() {
   let scaleTreble = map(treble, 0, 50, 0.8, 1.2); 
   let scaleMid = map(mid, 0, 255, -0.9, 0.9); 
   let scaleBass = map(bass, 0, 255, -1, 1);
+
+  let scaleMidLine = map(mid, 0, 255, 0, width); 
 
   // treble
   push();
@@ -75,18 +77,32 @@ function draw() {
     point(mappedMicLevel, height/4);
 
   // treble
+  push();
   strokeWeight(6);
-  stroke(255,0,0);
+  stroke(255-treble,0,0);
+  scale(scaleTreble);
+  rotate(-frameCount * scaleTreble/100);
   point(mappedTreble, height/4);
+  pop();
 
   // mid
+  push();
   strokeWeight(4);
-  stroke(0,0,255);
+  stroke(0,0,255-mid);
+  scale(scaleMid);
+  rotate(frameCount * scaleMid/100);
   point(mappedMid, height/4);
+  strokeWeight(2);
+  line(0, height/4, scaleMidLine, height);
+  pop();
 
   // bass
+  push();
   strokeWeight(6);
-  stroke(255);
+  stroke(255-bass);
+  scale(scaleBass);
+  rotate(-frameCount * scaleBass/100);
   point(mappedBass, height/4);
+  pop();
   }
 }
